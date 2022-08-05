@@ -5,7 +5,6 @@
 Created on Aug 4, 2019
 @author: daniel
 https://github.com/danielenricocahall/Keras-UNet/blob/master/Inception/InceptionModule.py
-
 """
 
 from keras.layers import Convolution2D, Activation, BatchNormalization, MaxPooling2D, concatenate

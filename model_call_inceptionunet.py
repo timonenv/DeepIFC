@@ -2,35 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Creating multiple input model that takes generators as data.
+Creating and training as multiple input model that takes generators as data (DeepIFC).
 
 InceptionUnet modified from:
 https://github.com/danielenricocahall/Keras-UNet/blob/master/UNet/createtInceptionUNet.py
 
-Some functions based on Lippeveld et al. study:
-https://github.com/saeyslab/cifconvert
-
-Example run:
-sbatch -o ./slurm-%j_output_8filter.txt 
--e ./slurm-%j_errors_8filter.txt --gres=gpu --time=100:00:00 --cpus-per-task 10 --mem=20G 
-train_multipledatasets.sh /path/to/folder/ 100 22 0 8 MNC inceptionunet 5
-
-train.sh structure:
-FOLDER=${1}
-DATAPATH=${2}
-EPOCHS=${3}
-BATCH_SIZE=${4}
-NORMALIZE_BACKGROUND=${5}
-NUM_FILTERS=${6}
-DATASET=${7}
-NETWORK=${8}
-TRAIN=${9}
-VAL=${10}
-WHICH_RUN=${11}
-WANTED_CHANNEL=${12}
-LEARNING_RATE=${13}
-LOSS=${14}
-PATIENCE=${15}
 """
 
 from InceptionUnet import createInceptionUnet

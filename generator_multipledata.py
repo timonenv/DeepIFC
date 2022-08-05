@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-Generator code that intakes .h5-files made from cif-files with cifconvert (Lippeveld et al. ).
+Generator code that intakes .h5-files made from cif-files with cifconvert (Lippeveld et al. 2020).
 Goes through all data files in folder, make sure the folder only contains what you want to train with. 
 No masks used.
 Output is numpy array. 
+
+Partly based on Lippeveld et al. 2020 study:
+https://github.com/saeyslab/cifconvert
 """
 
 from keras import utils

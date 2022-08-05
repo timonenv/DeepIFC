@@ -4,9 +4,8 @@
 """
 Create image means, roc_auc_curve, scatterplots and other plots of hdf data. Also includes static and interactive UMAPs for visualisation.
 
-Example run:
-srun --time=168:00:00 --gres=gpu python celltyping_originalexperiment.py --dataset WBC --normalize_background 1 --numFilters 8 
---loss binary_crossentropy --folder TESTING --hdf_file_path /path/to/file --means_available 1
+Partly based on Lippeveld et al. 2020 study:
+https://github.com/saeyslab/cifconvert
 """
 
 # !/usr/bin/env python
@@ -30,7 +29,6 @@ from sklearn.decomposition import PCA
 from sklearn.metrics import auc, roc_curve
 from target_generator import combined_generator
 from umap_generator import umap_generator
-from unet_3to1 import unet
 import argparse
 import base64
 import h5py
