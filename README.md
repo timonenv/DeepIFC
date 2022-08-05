@@ -38,8 +38,8 @@ PATIENCE=${15}
 ## Testing and UMAP tools
 The creation tools for UMAP, interactive UMAP, roc and auc curves and other tools for validating results are found in celltyping_fulldata.py.
 
+Example run for testing DeepIFC and creating UMAPs:
 ```
-Example run:
 srun --time=100:00:00 --gres=gpu python celltyping_originalexperiment.py --dataset WBC --normalize_background 1 --numFilters 8 
 --loss binary_crossentropy --folder TESTING --hdf_file_path /path/to/file --means_available 1
 ```
