@@ -10,6 +10,9 @@ Inception.py and InceptionUnet.py are required to call the InceptionUnet model b
 
 The model is trained in model_call_inceptionunet.py with generator_multipledata.py and train_multipledatasets.py script is used, as well as some functions from functions.py.
 
+The weights for the complete model are available in [checkpoints_complete](https://github.com/timonenv/DeepIFC/tree/master/checkpoints_complete).
+The weights for the best iterations for each cell type model in balanced data are available in [checkpoints_balanced](https://github.com/timonenv/DeepIFC/tree/master/checkpoints_balanced) under respective folders.
+
 Example run for model_call_inceptionunet.py, training DeepIFC:
 ```
 sbatch -o ./slurm-%j_output_8filter.txt -e ./slurm-%j_errors_8filter.txt --gres=gpu --time=100:00:00 --cpus-per-task 10 --mem=20G 
