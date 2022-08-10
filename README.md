@@ -30,6 +30,12 @@ Example run for testing DeepIFC and creating UMAPs:
 ```
 python celltyping_originalexperiment.py --dataset WBC --normalize_background 1 --numFilters 8 --loss binary_crossentropy --folder TESTING --hdf_file_path /path/to/file --means_available 1
 ```
+where the parameters are:
+```
+name of dataset, normalizing fluorescent image background (0=no, 1=yes), filter amount, loss, save folder, path to HDF file, and availability of means for images (0=no, 1=yes).
+```
+The means for all images in the test set must be calculated before cells can be typed for analysis. This is done by running the same command as for celltyping_originalexperiment.py, but changing the option for the means_available parameter to 0.
+
 
 ## Requirements (Python)
 Dependencies and package requirements can be found in [requirements.txt](https://github.com/timonenv/DeepIFC/blob/master/requirements.txt).
