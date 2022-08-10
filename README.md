@@ -15,27 +15,12 @@ The weights for the best iterations for each cell type model in balanced data ar
 
 Example run for model_call_inceptionunet.py, training DeepIFC:
 ```
-sbatch -o ./slurm-%j_output_8filter.txt -e ./slurm-%j_errors_8filter.txt --gres=gpu --time=100:00:00 --cpus-per-task 10 --mem=20G 
-train_multipledatasets.sh /path/to/folder/ 100 22 0 8 MNC inceptionunet 5
+train_multipledatasets.sh /path/to/DATAPATH/ 100 25 1 8 MNC inceptionunet SAVEFOLDER 2 0.001 binary_crossentropy 5
 ```
-
-Structure of training script train_multipledatasets.sh:
+where the parameters are:
 ```
-FOLDER=${1}
-DATAPATH=${2}
-EPOCHS=${3}
-BATCH_SIZE=${4}
-NORMALIZE_BACKGROUND=${5}
-NUM_FILTERS=${6}
-DATASET=${7}
-NETWORK=${8}
-TRAIN=${9}
-VAL=${10}
-WHICH_RUN=${11}
-WANTED_CHANNEL=${12}
-LEARNING_RATE=${13}
-LOSS=${14}
-PATIENCE=${15}
+HDF data folder, epochs, batch size, normalizing fluorescent image background (0=no, 1=yes), filter amount,
+dataset name, neural network, save folder, channel number, learning rate, loss, and patience.
 ```
 
 ## Testing and UMAP tools
@@ -43,8 +28,7 @@ The creation tools for UMAP, interactive UMAP, roc and auc curves and other tool
 
 Example run for testing DeepIFC and creating UMAPs:
 ```
-srun --time=100:00:00 --gres=gpu python celltyping_originalexperiment.py --dataset WBC --normalize_background 1 --numFilters 8 
---loss binary_crossentropy --folder TESTING --hdf_file_path /path/to/file --means_available 1
+python celltyping_originalexperiment.py --dataset WBC --normalize_background 1 --numFilters 8 --loss binary_crossentropy --folder TESTING --hdf_file_path /path/to/file --means_available 1
 ```
 
 ## Requirements (Python)
