@@ -2,6 +2,9 @@
 
 DeepIFC is a convolutional neural network based method which generates fluorescent images from brightfield and darkfield images in imaging flow cytometry data.
 
+## Publication
+The DeepIFC pre-print is available here: [Biorxiv](https://www.biorxiv.org/content/10.1101/2022.08.10.503433v1.full)
+
 ## Converting CIF files to HDF
 [Cifconvert](https://github.com/saeyslab/cifconvert) by Lippeveld et al. (2020) is used to transform datasets from CIF format to HDF format, which DeepIFC uses. 
 
