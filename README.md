@@ -44,5 +44,5 @@ The means for all images in the test set must be calculated before cells can be 
 Dependencies and package requirements can be found in [requirements.txt](https://github.com/timonenv/DeepIFC/blob/master/requirements.txt).
 
 ## Interactive UMAP example
-An example of the interactive UMAP tool for the MNC dataset is found in [here](https://timonenv.github.io/DeepIFC/).
+An example of the interactive UMAP tool for the MNC dataset is found in [here](https://timonenv.github.io/DeepIFC/). Visualized are 3600 cells from different donors. 
 
