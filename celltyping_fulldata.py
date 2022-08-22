@@ -680,9 +680,6 @@ elif means_available == 1:
     ###########################################################
     ########### IMPORT WEIGHTS, SET UP MODEL ##################
     ###########################################################
-
-    y = 128
-    x = 128
     # channels 6 and 7 are empty
     model1 = createInceptionUnet(pretrained_weights=BASEPATH + "channel_2/inceptionunet_checkpoint_target_ch2.h5",
     input_shape=(y,x,3), n_labels=1,
