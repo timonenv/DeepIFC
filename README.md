@@ -8,6 +8,9 @@ The DeepIFC pre-print is available here: [Biorxiv](https://www.biorxiv.org/conte
 ## Converting CIF files to HDF
 [Cifconvert](https://github.com/saeyslab/cifconvert) by Lippeveld et al. (2020) is used to transform datasets from CIF format to HDF format, which DeepIFC uses. 
 
+## Splitting HDF files to train, test and validation sets
+[H5 split](https://github.com/timonenv/DeepIFC/blob/master/h5_split.py) is a tool for splitting, merging or filling HDF files for usage with DeepIFC. It enables the use of datasets from other studies that do not match the dimensions of the original MNC data used to train DeepIFC, for example with zero-shot learning. 
+
 ## DeepIFC training
 Inception.py and InceptionUnet.py are required to call the InceptionUnet model based on [Cahall et al. 2019 model](https://github.com/danielenricocahall/Keras-UNet)
 
