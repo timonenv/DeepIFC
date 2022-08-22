@@ -129,35 +129,9 @@ if not os.path.exists(SAVEPATH):
     os.makedirs(SAVEPATH)
 
 def cell_gating_relaxed(x, threshold=0.01,threshold_7AAD=0.008,threshold_CD19=0.012,threshold_CD8=0.006,threshold_CD56=0.006): 
-  
-    if x["7AAD"]>= threshold_7AAD:
-        return ["Damaged/Dead"]
-
-    elif x["CD45"]>=threshold:
-        if x["CD3"]>=threshold: 
-            if x["CD8"] >= threshold_CD8 and x["CD56"] < threshold_CD56:
-                return ["WBC", "Cytotoxic T Cell", "T Cell"] 
-
-            elif x["CD56"] >= threshold_CD56: 
-                return ["WBC", "NKT", "T Cell"]
-
-            else:
-                return ["WBC", "T Cell"]
-        else:
-            if x["CD56"] >= threshold_CD56:
-                return ["WBC", "NK"]
-
-            elif x["CD19"] >= threshold_CD19: 
-                return ["WBC", "B Cell"]
-
-            elif x["CD14"] >= threshold:
-                return ["WBC", "Monocyte"]
-
-            else:
-                return ["WBC"]
-    return ["Unknown"]
-
-def cell_gating_relaxed_7AAD(x, threshold=0.01,threshold_7AAD=0.008,threshold_CD19=0.012,threshold_CD8=0.006,threshold_CD56=0.006): 
+    """
+    Permissible cell gating strategy. Dead or damaged cells can fall under multiple categories in addition to "Damaged/Dead".
+    """
     # if over threshold for 7AAD
     if x["7AAD"] >= threshold_7AAD:
         if x["CD45"] >= threshold:
@@ -212,6 +186,9 @@ def cell_gating_relaxed_7AAD(x, threshold=0.01,threshold_7AAD=0.008,threshold_CD
 
 def cell_gating_strict(x, threshold=0.01, threshold_7AAD=0.008,threshold_CD19=0.012,threshold_CD8=0.006,threshold_CD56=0.006): 
 
+    """
+    Strict cell gating strategy. Dead or damaged cells only fall under one category.
+    """
     if x["7AAD"]>= threshold_7AAD:
         return ["Damaged/Dead"]
 
@@ -625,14 +602,6 @@ elif means_available == 1:
     CD8_prediction = list(itertools.chain(*CD8_prediction))
     CD56_prediction = list(itertools.chain(*CD56_prediction))
 
-    # create dataframes for means of images, for each marker
-    cells_target = pd.DataFrame({"CD45":CD45_target,"CD3":CD3_target,"CD14":CD14_target,"7AAD":target_7AAD,"CD19":CD19_target,"CD8":CD8_target,"CD56":CD56_target})
-    cells_pred = pd.DataFrame({"CD45":CD45_prediction,"CD3":CD3_prediction,"CD14":CD14_prediction,"7AAD":prediction_7AAD,"CD19":CD19_prediction,"CD8":CD8_prediction,"CD56":CD56_prediction})
-    cells_target["Target cell type"] = cells_target.apply(cell_gating_relaxed, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1) # relaxed cell typing
-    cells_pred["Predicted cell type"] = cells_pred.apply(cell_gating_relaxed, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
-    cells_target["Target cell type"].to_csv(SAVEPATH+"cellclassification_target_counts.csv", sep="\t", header=False, index=False)
-    cells_pred["Predicted cell type"].to_csv(SAVEPATH+"cellclassification_pred_counts.csv", sep="\t", header=False, index=False)
-
     # more strict heatmap classification
     cells_target_strict = pd.DataFrame({"CD45":CD45_target,"CD3":CD3_target,"CD14":CD14_target,"7AAD":target_7AAD,"CD19":CD19_target,"CD8":CD8_target,"CD56":CD56_target})
     cells_pred_strict = pd.DataFrame({"CD45":CD45_prediction,"CD3":CD3_prediction,"CD14":CD14_prediction,"7AAD":prediction_7AAD,"CD19":CD19_prediction,"CD8":CD8_prediction,"CD56":CD56_prediction})
@@ -672,19 +641,19 @@ elif means_available == 1:
     plt.close()
 
     # more relaxed heatmap classification, 7AAD adjusted for gating (for individual datasets)
-    cells_target_7AAD = pd.DataFrame({"CD45":CD45_target,"CD3":CD3_target,"CD14":CD14_target,"7AAD":target_7AAD,"CD19":CD19_target,"CD8":CD8_target,"CD56":CD56_target})
-    cells_pred_7AAD = pd.DataFrame({"CD45":CD45_prediction,"CD3":CD3_prediction,"CD14":CD14_prediction,"7AAD":prediction_7AAD,"CD19":CD19_prediction,"CD8":CD8_prediction,"CD56":CD56_prediction})
-    cells_target_7AAD["Target cell type"] = cells_target_7AAD.apply(cell_gating_relaxed_7AAD, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
-    cells_pred_7AAD["Predicted cell type"] = cells_pred_7AAD.apply(cell_gating_relaxed_7AAD, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
-    cells_target_7AAD["Target cell type"].to_csv(SAVEPATH+"cells_target_counts_7AADclassification.csv", sep="\t", header=False, index=False)
-    cells_pred_7AAD["Predicted cell type"].to_csv(SAVEPATH+"cells_pred_counts_7AADclassification.csv", sep="\t", header=False, index=False)
+    cells_target_relaxed = pd.DataFrame({"CD45":CD45_target,"CD3":CD3_target,"CD14":CD14_target,"7AAD":target_7AAD,"CD19":CD19_target,"CD8":CD8_target,"CD56":CD56_target})
+    cells_pred_relaxed = pd.DataFrame({"CD45":CD45_prediction,"CD3":CD3_prediction,"CD14":CD14_prediction,"7AAD":prediction_7AAD,"CD19":CD19_prediction,"CD8":CD8_prediction,"CD56":CD56_prediction})
+    cells_target_relaxed["Target cell type"] = cells_target_relaxed.apply(cell_gating_relaxed, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
+    cells_pred_relaxed["Predicted cell type"] = cells_pred_relaxed.apply(cell_gating_relaxed, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
+    cells_target_relaxed["Target cell type"].to_csv(SAVEPATH+"cells_target_counts_7AADclassification.csv", sep="\t", header=False, index=False)
+    cells_pred_relaxed["Predicted cell type"].to_csv(SAVEPATH+"cells_pred_counts_7AADclassification.csv", sep="\t", header=False, index=False)
 
     # histograms of last batch to be processed, takes in initialised CD... variables for all markers
     create_histograms(bins=500)
     create_scatterplots(alpha=0.3)
     create_roc_auc_curve(threshold=0.01, dataset=dataset, target_chans=target_chans)
 
-    # Creating plot of all combined models for strict gating
+    # Creating percentages of all combined models for relaxed gating
     for i, celltype in enumerate(cell_type_list):
         print(celltype)
         print(cell_type_list[i])
@@ -703,9 +672,9 @@ elif means_available == 1:
         with open(SAVEPATH+"percentages_celltype_{}_out_of_Allgating.txt".format(celltype),"w") as f:
             print(combined_results,file=f)
     
-    #################################################################
-    ################## CREATE UMAP #################################
-    ###############################################################
+    ############################################################
+    ################## CREATE UMAP #############################
+    ############################################################
 
     ###########################################################
     ########### IMPORT WEIGHTS, SET UP MODEL ##################
@@ -747,7 +716,7 @@ elif means_available == 1:
     print("Compiled model")
 
     #########################################################
-    ################### EXTRACT FEATURES #####################
+    ################### EXTRACT FEATURES ####################
     #########################################################
     
     with h5py.File(IMAGE_PATH, "r") as file:
@@ -1025,7 +994,7 @@ elif means_available == 1:
         </div>
         """))
 
-        palette = Viridis[11] # Viridis is a dictionary and needs to be sliced
+        palette = Viridis[11]
 
         if color_mapping == "CD3": 
             color_mapper = linear_cmap(field_name="CD3_means", palette=palette, low=np.quantile(CD3_target,.1), high=np.quantile(CD3_target,.9))
@@ -1214,7 +1183,7 @@ colormap_target = plt.cm.get_cmap("viridis")
 alpha = 0.3
 size = 2
 
-normalize = matplotlib.colors.Normalize(vmin=np.quantile(CD45_target,low_quantile), vmax=np.quantile(CD45_target,high_quantile)) #np.quantile(CD45_target,low_quantile)
+normalize = matplotlib.colors.Normalize(vmin=np.quantile(CD45_target,low_quantile), vmax=np.quantile(CD45_target,high_quantile))
 
 # CD45
 plt.figure() 
