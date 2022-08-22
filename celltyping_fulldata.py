@@ -70,29 +70,29 @@ parser.add_argument("--high_quantile", type=float, help="For UMAP visualisation 
 args = parser.parse_args()
 
 # import args
+BASEPATH = args.BASEPATH
+batch_size = args.batch_size
+color_mapping_list = args.color_mapping_list
+data_point_amount = args.data_point_amount #for interactive umap features 
 dataset = args.dataset
+file_prefix = args.file_prefix
 folder = args.folder
-quantile = args.quantile 
+folder = args.folder
 hdf_file = args.hdf_file
 hdf_file_path = args.hdf_file_path
-loss = args.loss
-path_for_means = args.path_for_means
-threshold = args.threshold
-means_available = args.means_available
-batch_size = args.batch_size
-BASEPATH = args.BASEPATH
-color_mapping_list = args.color_mapping_list
-numFilters = args.numFilters
-folder = args.folder
-network = args.network
-file_prefix = args.file_prefix
-wanted_layer = args.wanted_layer
-n_neighbors = args.nearest_neighbor
-target_channels = args.target_channels
-data_point_amount = args.data_point_amount #for interactive umap features 
-numFilters = args.numFilters 
-low_quantile = args.low_quantile
 high_quantile = args.high_quantile
+loss = args.loss
+low_quantile = args.low_quantile
+means_available = args.means_available
+n_neighbors = args.nearest_neighbor
+network = args.network
+numFilters = args.numFilters
+numFilters = args.numFilters 
+path_for_means = args.path_for_means
+quantile = args.quantile 
+target_channels = args.target_channels
+threshold = args.threshold
+wanted_layer = args.wanted_layer
 if args.normalize_background == 1:
     norm_background = True
 elif args.normalize_background == 0:
@@ -272,108 +272,111 @@ def calculate_means(hdf_file="TESTSET.h5", hdf_file_path="/path/to/folder/", pat
                 batch_number += 1
 
 
-def create_histograms(bins=500, amount=6400):
-    print("Histograms for cell amount ", str(amount))
-    plt.hist(CD45_prediction, bins=bins)
+def create_histograms(bins, CD45_pred, CD3_pred, CD14_pred, pred_7AAD, CD19_pred, CD8_pred, CD56_pred,
+    CD45_gt, CD3_gt, CD14_gt, gt_7AAD, CD19_gt, CD8_gt, CD56_gt):
+    # predictions
+    plt.hist(CD45_pred, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram for ch2 pred")
     plt.savefig(SAVEPATH + "ch2_histogram_preds.png")
     plt.close()
 
-    plt.hist(CD3_prediction, bins=bins)
+    plt.hist(CD3_pred, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch3 pred")
     plt.savefig(SAVEPATH + "ch3_histogram_preds.png")
     plt.close()
 
-    plt.hist(CD14_prediction, bins=bins)
+    plt.hist(CD14_pred, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch4 pred")
     plt.savefig(SAVEPATH + "ch4_histogram_preds.png")
     plt.close()
 
-    plt.hist(prediction_7AAD, bins=bins)
+    plt.hist(pred_7AAD, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch5 pred")
     plt.savefig(SAVEPATH + "ch5_histogram_preds.png")
     plt.close()
 
-    plt.hist(CD19_prediction, bins=bins)
+    plt.hist(CD19_pred, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch8 pred")
     plt.savefig(SAVEPATH + "ch8_histogram_preds.png")
     plt.close()
 
-    plt.hist(CD8_prediction, bins=bins)
+    plt.hist(CD8_pred, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch10 pred")
     plt.savefig(SAVEPATH + "ch10_histogram_preds.png")
     plt.close()
 
-    plt.hist(CD56_prediction, bins=bins)
+    plt.hist(CD56_pred, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch11 pred")
     plt.savefig(SAVEPATH + "ch11_histogram_preds.png")
     plt.close()
-    #######
-    plt.hist(CD45_target, bins=bins)
+
+    # targets
+    plt.hist(CD45_gt, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch2 target")
     plt.savefig(SAVEPATH + "ch2_histogram_targets.png")
     plt.close()
 
-    plt.hist(CD3_target, bins=bins)
+    plt.hist(CD3_gt, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch3 target")
     plt.savefig(SAVEPATH + "ch3_histogram_targets.png")
     plt.close()
 
-    plt.hist(CD14_target, bins=bins)
+    plt.hist(CD14_gt, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch4 target")
     plt.savefig(SAVEPATH + "ch4_histogram_targets.png")
     plt.close()
 
-    plt.hist(target_7AAD, bins=bins)
+    plt.hist(gt_7AAD, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch5 target")
     plt.savefig(SAVEPATH + "ch5_histogram_targets.png")
     plt.close()
 
-    plt.hist(CD19_target, bins=bins)
+    plt.hist(CD19_gt, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram ch8 target")
     plt.savefig(SAVEPATH + "ch8_histogram_targets.png")
     plt.close()
 
-    plt.hist(CD8_target, bins=bins)
+    plt.hist(CD8_gt, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch10 target")
     plt.savefig(SAVEPATH + "ch10_histogram_targets.png")
     plt.close()
 
-    plt.hist(CD56_target, bins=bins)
+    plt.hist(CD56_gt, bins=bins)
     plt.xlabel("Mean value")
     plt.ylabel("Amount of cells")
     plt.title("Histogram, ch11 target")
     plt.savefig(SAVEPATH + "ch11_histogram_targets.png")
     plt.close()
 
-def create_scatterplots(alpha=0.3):
-    plt.scatter(CD45_target,CD45_prediction,s=5,alpha=alpha)
+def create_scatterplots(alpha, CD45_pred, CD3_pred, CD14_pred, pred_7AAD, CD19_pred, CD8_pred, CD56_pred,
+    CD45_gt, CD3_gt, CD14_gt, gt_7AAD, CD19_gt, CD8_gt, CD56_gt):
+    plt.scatter(CD45_gt,CD45_pred,s=5,alpha=alpha)
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -382,7 +385,7 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch2_CD45.png")
     plt.close()
 
-    plt.scatter(CD3_target,CD3_prediction,s=5,alpha=alpha)
+    plt.scatter(CD3_gt,CD3_pred,s=5,alpha=alpha)
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -391,7 +394,7 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch3_CD3.png")
     plt.close()
 
-    plt.scatter(CD14_target,CD14_prediction,s=5,alpha=alpha) 
+    plt.scatter(CD14_gt,CD14_pred,s=5,alpha=alpha) 
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -400,7 +403,7 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch4_CD14.png")
     plt.close()
 
-    plt.scatter(target_7AAD,prediction_7AAD,s=5,alpha=alpha) 
+    plt.scatter(gt_7AAD,pred_7AAD,s=5,alpha=alpha) 
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -409,7 +412,7 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch5_7AAD.png")
     plt.close()
 
-    plt.scatter(CD19_target,CD19_prediction,s=5,alpha=0.5) 
+    plt.scatter(CD19_gt,CD19_pred,s=5,alpha=0.5) 
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -418,7 +421,7 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch8_CD19.png")
     plt.close()
 
-    plt.scatter(CD8_target,CD8_prediction,s=5,alpha=alpha) 
+    plt.scatter(CD8_gt,CD8_pred,s=5,alpha=alpha) 
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -427,7 +430,7 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch10_CD8.png")
     plt.close()
 
-    plt.scatter(CD56_target,CD56_prediction,s=5,alpha=alpha) 
+    plt.scatter(CD56_gt,CD56_pred,s=5,alpha=alpha) 
     plt.xlabel("Target")
     plt.ylabel("Prediction")
     plt.axhline(y=0.01, color='gray', linestyle='--')
@@ -436,7 +439,8 @@ def create_scatterplots(alpha=0.3):
     plt.savefig(SAVEPATH + "Scatterplot_ch11_CD56.png")
     plt.close()
 
-def create_roc_auc_curve(threshold, dataset, target_chans): 
+def create_roc_auc_curve(threshold, dataset, target_chans, CD45_pred, CD3_pred, CD14_pred, pred_7AAD, CD19_pred, CD8_pred, CD56_pred,
+    CD45_gt, CD3_gt, CD14_gt, gt_7AAD, CD19_gt, CD8_gt, CD56_gt): 
     # ROC / AUC
     plt.figure(1)
     plt.gca().set_aspect('equal', adjustable='box')
@@ -444,26 +448,26 @@ def create_roc_auc_curve(threshold, dataset, target_chans):
     for i, channel_name in enumerate(target_chans):
         with open(SAVEPATH + "channel{}_binaryclassifications_targets.csv".format(str(channel_name)), "w+") as outfile:
             if channel_name == 2:
-                true = CD45_target
-                pred = CD45_prediction
+                true = CD45_gt
+                pred = CD45_pred
             if channel_name == 3:
-                true = CD3_target
-                pred = CD3_prediction
+                true = CD3_gt
+                pred = CD3_pred
             if channel_name == 4:
-                true = CD14_target
-                pred = CD14_prediction
+                true = CD14_gt
+                pred = CD14_pred
             if channel_name == 5:
-                true = target_7AAD
-                pred = prediction_7AAD
+                true = gt_7AAD
+                pred = pred_7AAD
             if channel_name == 8:
-                true = CD19_target
-                pred = CD19_prediction
+                true = CD19_gt
+                pred = CD19_pred
             if channel_name == 10:
-                true = CD8_target
-                pred = CD8_prediction
+                true = CD8_gt
+                pred = CD8_pred
             if channel_name == 11:
-                true = CD56_target
-                pred = CD56_prediction
+                true = CD56_gt
+                pred = CD56_pred
 
             print("Processing channel ", channel_name)
             binary_ground_truth = []
@@ -623,8 +627,8 @@ elif means_available == 1:
 
     hm = sns.heatmap(res, annot=True, fmt=".2f", square=True)
     plt.tight_layout()
-    plt.xlabel("Target cell types", fontsize = 10) 
-    plt.ylabel("Predicted cell types", fontsize = 10) 
+    plt.xlabel("Target cell types", fontsize=10) 
+    plt.ylabel("Predicted cell types", fontsize=10) 
     hm.figure.savefig(SAVEPATH + "heatmap_allchannels_rownorm.png")
     plt.close()
 
@@ -635,8 +639,8 @@ elif means_available == 1:
 
     hm = sns.heatmap(res, annot=True, fmt=".2f", annot_kws={"size":8}, square=True)
     plt.tight_layout()
-    plt.xlabel("Target cell types", fontsize = 10) 
-    plt.ylabel("Predicted cell types", fontsize = 10) 
+    plt.xlabel("Target cell types", fontsize=10) 
+    plt.ylabel("Predicted cell types", fontsize=10) 
     hm.figure.savefig(SAVEPATH + "heatmap_allchannels_counts.png")
     plt.close()
 
@@ -645,19 +649,22 @@ elif means_available == 1:
     cells_pred_relaxed = pd.DataFrame({"CD45":CD45_prediction,"CD3":CD3_prediction,"CD14":CD14_prediction,"7AAD":prediction_7AAD,"CD19":CD19_prediction,"CD8":CD8_prediction,"CD56":CD56_prediction})
     cells_target_relaxed["Target cell type"] = cells_target_relaxed.apply(cell_gating_relaxed, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
     cells_pred_relaxed["Predicted cell type"] = cells_pred_relaxed.apply(cell_gating_relaxed, args=(threshold,threshold_7AAD,threshold_CD19,threshold_CD8,threshold_CD56), axis=1)
-    cells_target_relaxed["Target cell type"].to_csv(SAVEPATH+"cells_target_counts_7AADclassification.csv", sep="\t", header=False, index=False)
-    cells_pred_relaxed["Predicted cell type"].to_csv(SAVEPATH+"cells_pred_counts_7AADclassification.csv", sep="\t", header=False, index=False)
+    cells_target_relaxed["Target cell type"].to_csv(SAVEPATH+"cells_target_counts_relaxedclassification.csv", sep="\t", header=False, index=False)
+    cells_pred_relaxed["Predicted cell type"].to_csv(SAVEPATH+"cells_pred_counts_relaxedclassification.csv", sep="\t", header=False, index=False)
 
-    # histograms of last batch to be processed, takes in initialised CD... variables for all markers
-    create_histograms(bins=500)
-    create_scatterplots(alpha=0.3)
-    create_roc_auc_curve(threshold=0.01, dataset=dataset, target_chans=target_chans)
+    # histograms, scatterplots and roc auc curve
+    create_histograms(500, CD45_prediction, CD3_prediction, CD14_prediction, prediction_7AAD, CD19_prediction, CD8_prediction, CD56_prediction, 
+    CD45_target, CD3_target, CD14_target, target_7AAD, CD19_target, CD8_target, CD56_target)
+    create_scatterplots(0.3, CD45_prediction, CD3_prediction, CD14_prediction, prediction_7AAD, CD19_prediction, CD8_prediction, CD56_prediction, 
+    CD45_target, CD3_target, CD14_target, target_7AAD, CD19_target, CD8_target, CD56_target)
+    create_roc_auc_curve(0.01, dataset, target_chans, CD45_prediction, CD3_prediction, CD14_prediction, prediction_7AAD, CD19_prediction, CD8_prediction, CD56_prediction, 
+    CD45_target, CD3_target, CD14_target, target_7AAD, CD19_target, CD8_target, CD56_target)
 
     # Creating percentages of all combined models for relaxed gating
     for i, celltype in enumerate(cell_type_list):
         print(celltype)
         print(cell_type_list[i])
-        predfile = pd.read_csv(SAVEPATH + "cells_pred_counts_7AADclassification.csv", sep="\t", header=None)
+        predfile = pd.read_csv(SAVEPATH + "cells_pred_counts_relaxedclassification.csv", sep="\t", header=None)
         pred_occurrences = []
         for index, pred in predfile.iterrows():
             if cell_type_list[i] in pred.values[0]:
@@ -671,10 +678,6 @@ elif means_available == 1:
         combined_results = {"Percentage":percentage(len(pred_occurrences),len(predfile)),"pred_occurrences":len(pred_occurrences),"Length of file":len(predfile)}
         with open(SAVEPATH+"percentages_celltype_{}_out_of_Allgating.txt".format(celltype),"w") as f:
             print(combined_results,file=f)
-    
-    ############################################################
-    ################## CREATE UMAP #############################
-    ############################################################
 
     ###########################################################
     ########### IMPORT WEIGHTS, SET UP MODEL ##################
