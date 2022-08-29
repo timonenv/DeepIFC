@@ -23,10 +23,20 @@ Example run for model_call_inceptionunet.py, training DeepIFC:
 ```
 train_multipledatasets.sh /path/to/DATAPATH/ 100 25 1 8 MNC inceptionunet SAVEFOLDER 2 0.001 binary_crossentropy 5
 ```
-where the parameters are:
+where the parameters in order are:
 ```
-HDF data folder, epochs, batch size, normalizing fluorescent image background (0=no, 1=yes), filter amount,
-dataset name, neural network, save folder, channel number, learning rate, loss, and patience.
+HDF data folder
+epochs
+batch size
+normalizing fluorescent image background (0=no, 1=yes)
+filter amount
+dataset name
+neural network
+save folder
+channel number
+learning rate
+loss
+patience
 ```
 
 ## Testing and UMAP tools
@@ -36,9 +46,15 @@ Example run for testing DeepIFC and creating UMAPs:
 ```
 python celltyping_originalexperiment.py --dataset WBC --normalize_background 1 --numFilters 8 --loss binary_crossentropy --folder TESTING --hdf_file_path /path/to/file --means_available 1
 ```
-where the parameters are:
+where the parameters in order are:
 ```
-name of dataset, normalizing fluorescent image background (0=no, 1=yes), filter amount, loss, save folder, path to HDF file, and availability of means for images (0=no, 1=yes).
+name of dataset
+normalizing fluorescent image background (0=no, 1=yes)
+filter amount
+loss
+save folder
+path to HDF file
+availability of means for images (0=no, 1=yes)
 ```
 The means for all images in the test set must be calculated before cells can be typed for analysis. This is done by running the same command as for celltyping_originalexperiment.py, but changing the option for the means_available parameter to 0.
 
