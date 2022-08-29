@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Creating and training as multiple input model that takes generators as data (DeepIFC).
+Creating and training a multiple input model that takes generators as data (DeepIFC).
 
 InceptionUnet modified from:
 https://github.com/danielenricocahall/Keras-UNet/blob/master/UNet/createtInceptionUNet.py
@@ -10,11 +10,8 @@ https://github.com/danielenricocahall/Keras-UNet/blob/master/UNet/createtIncepti
 """
 
 from InceptionUnet import createInceptionUnet
-from generator_multipledata import generator_multipledata
+from data_generators import generator_multipledata
 from keras.layers import *
-from keras.models import Model
-from functions import normalize_background, normalize
-from sklearn import model_selection
 import argparse
 import datetime
 import keras
@@ -117,8 +114,8 @@ mode="min")
 
 gen = generator_multipledata(DATAPATH, batch_size, "train", wanted_y_ch, normalized_background=norm_background, quantile=quantile)
 val_gen = generator_multipledata(DATAPATH, batch_size, "val", wanted_y_ch, normalized_background=norm_background, quantile=quantile)
-len_train =  # TODO
-len_val =  # TODO
+len_train = 100 # TODO
+len_val = 20 # TODO
 
 history = model.fit(
     gen,

@@ -24,8 +24,7 @@ import matplotlib
 from functions import normalize_background, normalize, percentage, naturalsorting
 from PIL import Image
 from sklearn.metrics import auc, roc_curve
-from target_generator import combined_generator
-from umap_generator import umap_generator
+from data_generators import combined_generator, umap_generator
 import argparse
 import base64
 import h5py
