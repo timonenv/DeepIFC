@@ -44,10 +44,19 @@ The means for all images in the test set must be calculated before cells can be 
 
 
 ## Requirements (Python)
-Package requirements can be found in [requirements.txt](https://github.com/timonenv/DeepIFC/blob/master/requirements.txt).
+Full package requirements can be found in [requirements.txt](https://github.com/timonenv/DeepIFC/blob/master/requirements.txt).
 
-Python 3.7.9
-tensorflow-gpu
+Dependencies for model:
+*Python 3.7.9
+*tensorflow-gpu 2.4.1
+
+Packages for visualization:
+*bokeh 2.4.3
+*matplotlib 3.2.2
+*pandas 1.3.5
+*scikit-learn 1.0.2
+*seaborn 0.11.2
+*umap-learn 0.5.3
 
 ## Interactive UMAP example
 An example of the interactive UMAP tool for the MNC dataset is found in [here](https://timonenv.github.io/DeepIFC/). Visualized are 3600 cells from different donors. 
