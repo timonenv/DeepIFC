@@ -11,7 +11,6 @@ https://github.com/saeyslab/cifconvert
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 from array import *
-from doctest import ELLIPSIS_MARKER
 from bokeh.io import output_file, show, output_notebook
 from bokeh.models import HoverTool, ColumnDataSource
 from bokeh.palettes import Viridis
@@ -20,12 +19,10 @@ from bokeh.transform import linear_cmap,factor_cmap
 from InceptionUnet import createInceptionUnet
 from io import BytesIO
 from keras.layers import *
-import itertools
 from keras.models import Model
 import matplotlib
-from functions import normalize_background, normalize, func, percentage, naturalsorting
+from functions import normalize_background, normalize, percentage, naturalsorting
 from PIL import Image
-from sklearn.decomposition import PCA
 from sklearn.metrics import auc, roc_curve
 from target_generator import combined_generator
 from umap_generator import umap_generator
