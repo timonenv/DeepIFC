@@ -8,6 +8,8 @@ InceptionUnet modified from:
 https://github.com/danielenricocahall/Keras-UNet/blob/master/UNet/createtInceptionUNet.py
 
 """
+from datetime import datetime
+start_time = datetime.now()
 
 from InceptionUnet import createInceptionUnet
 from data_generators import generator_multipledata
@@ -23,9 +25,9 @@ import random
 random.seed(42)
 
 parser = argparse.ArgumentParser(description="Train DeepIFC")
+parser.add_argument("BASEPATH", type=str, help="Base path for training and saving results for each run of the model")
 parser.add_argument("folder", type=str, help="Output folder for results")
 parser.add_argument("DATAPATH", type=str, help="Home path for datasets")
-parser.add_argument("BASEPATH", type=str, help="Base path for training and saving results for each run of the model")
 parser.add_argument("-e", "--epochs", type=int, help="Epochs", default=100)
 parser.add_argument("-b", "--batch_size", type=int, help="Batch size", default=10)
 parser.add_argument("--normalize_background", type=int, help="0=False or 1=True for background normalization", default=1)
@@ -40,9 +42,11 @@ parser.add_argument("--pretrained_weights", help="Pretrained weights to import",
 parser.add_argument("-ct", "--target_channels", type=int, nargs="+", help="Specify target channels as a list separated by spaces", default=[2,3,4,5,8,10,11])
 args = parser.parse_args()
 
+DATAPATH = args.DATAPATH
+BASEPATH = args.BASEPATH
+folder = args.folder 
 epochs = args.epochs 
 network = args.network
-folder = args.folder 
 quantile = args.quantile
 batch_size = args.batch_size 
 learning_rate = args.learning_rate
@@ -51,8 +55,6 @@ numFilters = args.numFilters
 patience = args.patience 
 loss = args.loss
 wanted_target_channel = args.wanted_channel
-DATAPATH = args.DATAPATH
-BASEPATH = args.BASEPATH
 pretrained_weights = args.pretrained_weights
 
 if pretrained_weights == None:
@@ -183,3 +185,7 @@ plt.close()
 
 time_file.write("Run Ended: " + str(datetime.datetime.now()))
 time_file.close()
+
+end_time = datetime.now()
+print("Calculating means finished.")
+print('Duration: {}'.format(end_time - start_time))
