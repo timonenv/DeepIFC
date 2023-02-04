@@ -21,10 +21,12 @@ The weights for the best iterations for each cell type model in balanced data ar
 
 Example run for model_call_inceptionunet.py, training DeepIFC:
 ```
-train_multipledatasets.sh /path/to/DATAPATH/ 100 25 1 8 MNC inceptionunet SAVEFOLDER 2 0.001 binary_crossentropy 5
+train_multipledatasets.sh /path/to/BASEPATH/ SAVEFOLDER /path/to/DATAPATH/ 100 25 1 8 MNC inceptionunet 2 0.001 binary_crossentropy 5
 ```
 where the parameters in order are:
 ```
+BASEPATH
+SAVEFOLDER
 HDF data folder
 epochs
 batch size
@@ -37,6 +39,7 @@ channel number
 learning rate
 loss
 patience
+(pretrained weights)
 ```
 
 ## Testing and UMAP tools
