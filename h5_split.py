@@ -19,11 +19,11 @@ Example for filling to size:
 python h5_split.py --hdf_file /path/to/file/TEST.h5 --save_path /path/to/folder/ --output_name testfile_ --wanted_function fill_to_size
 
 """
+import argparse
 import h5py
 import numpy as np
-import re
 import random
-import argparse
+import re
 
 random.seed(42)
 
@@ -366,7 +366,7 @@ if wanted_function == "merge":
     merge_datasets(file1_path, file2_path, save_path, output_name)
 elif wanted_function == "split":
     print("Splitting dataset")
-    split_train_test(hdf_file, save_path, test_amount, val_amount)
+    split_train_test(hdf_file, save_path, test_amount, val_amount, output_name)
 elif wanted_function == "fill_to_size":
     print("Creating new shape for file")
     fill_to_size(hdf_file, save_path, output_name)
